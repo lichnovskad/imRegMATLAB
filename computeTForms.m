@@ -1,10 +1,7 @@
-function [tforms, imageSize] = computeTForms(imOrder,buildingScene, RES)
-
-% Display images to be stitched
-%montage(buildingScene.Files);
+function [tforms, imageSize] = computeTForms(imOrder, scene, RES)
 
 % Read the first image from the image set.
-I = readimage(buildingScene, imOrder(1));
+I = scene{imOrder(1)};
 I = rot90(I,3);
 I = imresize(I,RES);
 % Initialize features for I(1)
@@ -31,7 +28,7 @@ for n = 2:numImages
     featuresPrevious = features;
         
     % Read I(n).
-    I = readimage(buildingScene, imOrder(n));
+    I = scene{imOrder(n)};
     I = rot90(I,3);
     I = imresize(I,RES);
     % Convert image to grayscale.
@@ -53,7 +50,7 @@ for n = 2:numImages
     
     % Estimate the transformation between I(n) and I(n-1).
     tforms(n) = estimateGeometricTransform(matchedPoints, matchedPointsPrev,...
-        'projective', 'Confidence', 95, 'MaxNumTrials', 2000);
+        'projective', 'Confidence', 99, 'MaxNumTrials', 2000);
 
     % Compute T(n) * T(n-1) * ... * T(1)
     tforms(n).T = double(tforms(n).T) * tforms(n-1).T; 

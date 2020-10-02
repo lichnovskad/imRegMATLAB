@@ -1,11 +1,11 @@
-function [err, panorama] = warpTwoImages(buildingScene, imOrder, RES,tforms, xLimits, yLimits)
+function [err, panorama] = warpTwoImages(scene, imOrder, RES,tforms, xLimits, yLimits)
 
 % Width and height of panorama.
 width  = round(xLimits(2) - xLimits(1));
 height = round(yLimits(2) - yLimits(1));
 
 % Initialize the "empty" panorama.
-I = readimage(buildingScene, imOrder(1));
+I = scene{imOrder(1)};
 I = rot90(I,3);
 I = imresize(I,RES);
 panorama = zeros([width height  3], 'like', I);
@@ -23,7 +23,7 @@ images = {};
 % Create the panorama.
 for i = 1:numel(imOrder)
     
-    I = readimage(buildingScene, imOrder(i));
+    I = scene{imOrder(i)};
     I = imresize(I,RES);
     I = rot90(I,3);
     
