@@ -5,7 +5,7 @@
 clc;clear;close all;
 %str = 'data/videa/IMG_0330.MOV';
 strabs = '/home/daniela/Plocha/Bakalářka';
-str = 'dataset/video/vid6.mov';
+str = 'dataset/video/vid9.mov';
 vid = VideoReader(fullfile(strabs,str));
 %%
 M = [0 1 0; 1 -4 1; 0 1 0];
@@ -78,7 +78,7 @@ for i = 2:K+1
         scene = {read(vid,frameList(i-1)), read(vid,currFrame(1,2))};
         [res, error] = transformCheck(scene);
         disp(error);
-        if error > 9.5
+        if error > 6
             errorCheck = true;
             currFrame(1,:) = [];
         else
