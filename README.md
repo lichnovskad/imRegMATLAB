@@ -1,6 +1,6 @@
 # imRegMATLAB - Automatická registrace z videa
 
-## Verze 0.0.1
+## Verze 0.0.2
 
 ## Funkce
 * **untitled** - prozatím "spouštějící" soubor, načte videa a spustí makeImSet a registrace, po sobě
