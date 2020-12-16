@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function [Im1,Im2, lenght]=genBlur(I1,I2, n, lenght)
 %vem 2 obrazky a vygeneruj n paru s blurem s pevnou orientaci a random
 %delkou
@@ -66,5 +65,4 @@ for i = 1:n
 end
 
 
->>>>>>> 2b4c688a8712ec98a03c4aaf83f3196ca7feac6c
 end
