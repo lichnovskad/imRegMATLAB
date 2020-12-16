@@ -20,6 +20,7 @@ takže v tom prozatím bude trochu nepořádek)
 * **computeTforms** - počítá transformační matice
 * **warpTwoImages** - registruje 2 snímky a odečtením transd. snímků počítá chybu transformace
 * **error_work** - pracovní file, hledám práh pro chybu transformace(viz warpTwoImages)
+* **cylWarp** - přetransformuje obrázek do cylindrických souřadnic
 
 ## ostatní soubory
 * **schema.jpg** - prozatimní schéma programu (taková pipeline?)
@@ -27,7 +28,12 @@ takže v tom prozatím bude trochu nepořádek)
 
 ## Co to je repeatability?
 
-článek str 15-17: https://hal.inria.fr/inria-00548302/document
+článek str. 15-17: https://hal.inria.fr/inria-00548302/document
+
+## Nápady na experimenty
+* Sledování vlivu rychlosti pohybu na registraci (spojené s repeatability)
+* Vliv "houpání" (špatně se pak přenáší do 2D prostoru)
+* Vliv zašumění
 
 ## Pokyny pro vypracování - zadání z bakalářky
 * Seznamte se základními postupy registrace obrazů a skládání panoramat.
