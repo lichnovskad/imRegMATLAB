@@ -30,10 +30,10 @@ takže v tom prozatím bude trochu nepořádek)
 
 článek str. 15-17: https://hal.inria.fr/inria-00548302/document
 
-## Nápady na experimenty
-* Sledování vlivu rychlosti pohybu na registraci (spojené s repeatability)
-* Vliv "houpání" (špatně se pak přenáší do 2D prostoru)
-* Vliv zašumění
+## ???
+* Jak rychle/pomalu je třeba se pohybovat, aby ještě fungovala registrace?
+* Nechat všechna videa projít celou pipelinou
+* Vliv zašumění (podobný experiment jako blur)
 
 ## Pokyny pro vypracování - zadání z bakalářky
 * Seznamte se základními postupy registrace obrazů a skládání panoramat.
