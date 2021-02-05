@@ -1,9 +1,9 @@
 # imRegMATLAB - Automatická registrace z videa
 
-## Verze 0.0.2
+## Verze 0.3
 
 ## Funkce
-* **untitled** - prozatím "spouštějící" soubor, načte videa a spustí makeImSet a registrace, po sobě
+* **config** - "spouštějící" soubor, načte videa a spustí makeImSet a registrace, po sobě
 * **makeImSet** - vybere nejlepší snmky z videa, používá funkce: computeFM, transformCheck
 * **registrace** - registrace snímků, které získáme z makeImSet, asi by se mělo přejmenovat(?), používá createPanorama
 * **repStats** - spoštěcí soubor pro repeatability, vygeneruje rozmazané dvojice(genBlur), nakonec spočítá průměr a rozptyl
@@ -20,7 +20,7 @@ takže v tom prozatím bude trochu nepořádek)
 * **computeTforms** - počítá transformační matice
 * **warpTwoImages** - registruje 2 snímky a odečtením transd. snímků počítá chybu transformace
 * **error_work** - pracovní file, hledám práh pro chybu transformace(viz warpTwoImages)
-* **cylWarp** - přetransformuje obrázek do cylindrických souřadnic
+* ~~**cylWarp** - přetransformuje obrázek do cylindrických souřadnic~~
 
 ## ostatní soubory
 * **schema.jpg** - prozatimní schéma programu (taková pipeline?)
