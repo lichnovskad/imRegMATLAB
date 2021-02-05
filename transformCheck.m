@@ -1,10 +1,10 @@
-function [result, error] = transformCheck(scene)
+function [result, error] = transformCheck(scene,type)
     ord = [1 2];
-    RES = 0.5;
+
     try
-        [tforms, imSize] = computeTForms(ord, scene,RES);
-        [xLimits, yLimits] = computeLimits(tforms, imSize, RES);
-        [error, result] = warpTwoImages(scene, ord, RES,tforms, xLimits, yLimits);
+        [tforms, imSize] = computeTForms(ord, scene,type);
+        [xLimits, yLimits] = computeLimits(tforms, imSize);
+        [error, result] = warpTwoImages(scene, ord,tforms, xLimits, yLimits);
         pixNum = imSize(1,1)*imSize(1,2);
         error = error/pixNum;
     catch

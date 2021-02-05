@@ -1,10 +1,6 @@
-function [frameList, fmVect] = makeImSet(video)
-% strabs = '/home/daniela/Plocha/Bakalářka';
-% str = 'dataset/video/vid9.mov';
-% vid = VideoReader(fullfile(strabs,str));
+function [frameList, fmVect, info] = makeImSet(inStr,outStr,dist)
 
-vid = VideoReader(video);
-
+vid = VideoReader(inStr);
 %_____________________________________________________________
 %spocita focus measure
 [~, fmVect] = computeFM(vid, 1);
@@ -13,8 +9,8 @@ vid = VideoReader(video);
 %odhad velikosti okna
 frameNum = vid.NumFrames;
 frameRate = round(vid.FrameRate);
-maxDist = 100;
-minDist = 37;
+maxDist = dist(2);
+minDist = dist(1);
 i = 1;
 % modulo = mod(frameNum, maxDist);
 % K = (frameNum-modulo)/maxDist);
@@ -37,17 +33,21 @@ disp(errThresh);
 
 %save image
 current_image = read(vid, frameList(i));
-numStr = int2str(frameList(i));
-numStr2 = int2str(i);
-imName = strcat('vidSet/vidFrame',numStr2,'_',numStr,'.png');
-imwrite(rot90(current_image,3),imName);
+[h, ~, ~] = size(current_image);
+if h ~= 1920
+    current_image = rot90(current_image,3);
+end   
+%numStr = int2str(frameList(i));
+%numStr2 = int2str(i);
+imName = strcat(outStr,'/vidFrame01.png');
+imwrite(current_image,imName);
 
 while last + minDist <= frameNum
     i = i+1;
     
-    if last + maxDist > frameNum
-        fmWind = fmVect(last+minDist:frameNum);
-        idxWind = (last+minDist:frameNum)';
+    if last + maxDist >= frameNum
+        fmWind = fmVect(last+minDist:frameNum-1); %error Index exceeds the number of array elements
+        idxWind = (last+minDist:frameNum-1)';
     else
         fmWind = fmVect(last+minDist:last+maxDist);
         idxWind = (last+minDist:last+maxDist);
@@ -64,7 +64,7 @@ while last + minDist <= frameNum
     while errorCheck == true
         j = j + 1;
         scene = {read(vid,frameList(i-1)), read(vid,idxWind(1))};
-        [~, error] = transformCheck(scene);
+        [~, error] = transformCheck(scene,"projective");
         errList(j,:) = [error, idxWind(1)];
         disp(error);
         if error > errThresh
@@ -92,14 +92,19 @@ while last + minDist <= frameNum
     
     %save image
     current_image = read(vid, frameList(i));
-    numStr = int2str(frameList(i));
-    numStr2 = int2str(i);
-    imName = strcat('vidSet/vidFrame',numStr2,'_',numStr,'.png');
+    %numStr = int2str(frameList(i));
+    if i < 10
+        numStr = strcat('0',int2str(i));
+    else
+        numStr = int2str(i);
+    end
+    imName = strcat(fullfile(outStr),'/vidFrame',numStr,'.png');
     imwrite(rot90(current_image,3),imName);
     disp(frameList(i));
     
+    
 
-
+    info = {frameNum, frameRate, errThresh};
 end
 
 %plot(frameVect, fmVect,frameList, fmVect(frameList))

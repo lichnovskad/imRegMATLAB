@@ -1,22 +1,20 @@
-function [panorama, per]=createPanorama(scene, imOrder, RES,tforms, xLimits, yLimits, colBorder)
+function [panorama, per]=createPanorama(scene, imOrder,tforms, xLimits, yLimits, colBorder, RES)
 
 width  = round(xLimits(2) - xLimits(1));
 height = round(yLimits(2) - yLimits(1));
 
 % Initialize the "empty" panorama.
 I = scene{imOrder(1)};
-I = rot90(I,3);
 I = imresize(I,RES);
 panorama = zeros([height width 3], 'like', I);
 
 % Width and height of panorama.
 
-blender = vision.AlphaBlender('Operation', 'Binary mask', ...
+blender = vision.AlphaBlender('Operation', 'Binary Mask', ...
     'MaskSource', 'Input port');  
 
 % Create a 2-D spatial reference object defining the size of the panorama.
 panoramaView = imref2d([height width], xLimits, yLimits);
-
 S = [RES 0 0; 0 RES 0; 0 0 1];
 
 mask = {};
@@ -27,8 +25,6 @@ for i = 1:numel(imOrder)
     
     I = scene{imOrder(i)};
     I = imresize(I,RES);
-    I = rot90(I,3);
-    
     % Make tform for different size RES
     tforms(i).T = S\tforms(i).T*S;
     
@@ -45,9 +41,10 @@ for i = 1:numel(imOrder)
 
     % Generate a binary mask.    
     mask{i} = imwarp(true(size(I,1),size(I,2)), tforms(i), 'OutputView', panoramaView);
-    
+    maskCyl = rgb2gray(warpedImage) > 1;
+    maskCyl = imfill(maskCyl, 'holes');
     % Overlay the warpedImage onto the panorama.
-    panorama = step(blender, panorama, warpedImage, mask{i});
+    panorama = step(blender, panorama, warpedImage, maskCyl);
     %panorama = insertShape(panorama,'Polygon',reshape(points{i}, [1,8]),'LineWidth',5, 'Color', {['blue']});
 end
 

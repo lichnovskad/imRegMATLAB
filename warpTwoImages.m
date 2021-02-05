@@ -1,4 +1,4 @@
-function [err, panorama] = warpTwoImages(scene, imOrder, RES,tforms, xLimits, yLimits)
+function [err, panorama] = warpTwoImages(scene, imOrder,tforms, xLimits, yLimits, RES)
 
 % Width and height of panorama.
 width  = round(xLimits(2) - xLimits(1));
@@ -6,7 +6,6 @@ height = round(yLimits(2) - yLimits(1));
 
 % Initialize the "empty" panorama.
 I = scene{imOrder(1)};
-I = rot90(I,3);
 I = imresize(I,RES);
 panorama = zeros([width height  3], 'like', I);
 
@@ -15,7 +14,6 @@ blender = vision.AlphaBlender('Operation', 'Binary mask', ...
 
 % Create a 2-D spatial reference object defining the size of the panorama.
 panoramaView = imref2d([width height], xLimits, yLimits);
-
 S = [RES 0 0; 0 RES 0; 0 0 1];
 
 mask = {};
@@ -25,10 +23,10 @@ for i = 1:numel(imOrder)
     
     I = scene{imOrder(i)};
     I = imresize(I,RES);
-    I = rot90(I,3);
+    % Make tform for different size RES
+    tforms(i).T = S\tforms(i).T*S;
     
     % Transform I into the panorama.
-    tforms(i).T = S\tforms(i).T*S;
     warpedImage = imwarp(I, tforms(i), 'OutputView', panoramaView);
     images{i} = warpedImage;
     
